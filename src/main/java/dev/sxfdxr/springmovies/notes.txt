@@ -1,0 +1,72 @@
+ObjectId is like primary key in mongodb used as a unique key
+
+Spring boot annotations
+
+@Document annotation 
+The annotations @Document applied to a class marks this class as a candidate for mapping to the database
+
+From Lombok which is a maven dependency we can reduce boilerplate code as this automatically writes getters and setters for us 
+Examples like 
+@Data Takes care of all getters and setters
+@AllArgsConstructor Writes constructors with args 
+@NoArgsConstructor Writes constructors with no args 
+
+@Restontroller
+Spring RestController annotation is a convenience annotation that is itself annotated with @Controller and @ResponseBody. This annotation is applied to a class to mark it as a request handler. Spring RestController annotation is used to create RESTful web services using Spring MVC. Spring RestController takes care of mapping request data to the defined request handler method. Once response body is generated from the handler method, it converts it to JSON or XML response.
+
+@RequestMapping("/api/home")
+main annotations in Spring MVC: @RequestMapping.
+Simply put, the annotation is used to map web requests to Spring Controller methods.
+
+@GetMapping
+
+Typically, if we want to implement the URL handler using traditional @RequestMapping annotation, it would have been something like this:
+@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+The new approach makes it possible to shorten this simply to:
+@GetMapping("/get/{id}")
+Spring currently supports five types of inbuilt annotations for handling different types of incoming HTTP request methods which are GET, POST, PUT, DELETE, and PATCH. These annotations are:
+@GetMapping - shortcut for @RequestMapping(method = RequestMethod.GET)
+@PostMapping - shortcut for @RequestMapping(method = RequestMethod.POST)
+@PutMapping - shortcut for @RequestMapping(method = RequestMethod.PUT)
+@DeleteMapping - shortcut for @RequestMapping(method =RequestMethod.DELETE)
+@PatchMapping - shortcut for @RequestMapping(method = RequestMethod.PATCH)
+
+ResponseEntity<String>
+ResponseEntity represents the whole HTTP response: status code, headers, and body. As a result, we can use it to fully configure the HTTP response.
+If we want to use it, we have to return it from the endpoint; Spring takes care of the rest.
+Basically to manipulate the HTTP response in Spring
+ResponseEntity is a generic type. Consequently, we can use any type as the response body
+
+@Repository
+The repository follows the Spring Data-centric approach and comes with more flexible and complex API operations, based on the well-known access patterns in all Spring Data projects.
+
+@Service
+
+
+
+Layers in REST API 
+
+Service class- Business logic goes here, it is 
+Repository class - Data access layer , talks to the db
+Controller - Here we define the API end points
+
+So here we're achieving loose coupling as repository interface defines blueprints of methods which is connected to db.
+Service layer we define the methods in the repository interface and this is connected to controller layer.
+Here we can see that controller layer is seperated from the repository layer
+
+1. Issue faced while connecting to mongodb.
+Apparently in 3.1.x it is mandatory to add db name if using mongodb.uri as it overrides other functions and does not use spring.mongodb.database
+spring.data.mongodb.database is ignored if you've set spring.data.mongodb.uri
+Read here: https://github.com/spring-projects/spring-boot/issues/35566
+
+To read later
+Beans , servlets
+
+MongoTemplate
+The MongoTemplate follows the standard template pattern in Spring and provides a ready-to-go, basic API to the underlying persistence engine.
+
+insert
+Save-insert --> checks if id is there, if present it updates else it inserts
+update , UpdateFirst ,UpdateMulti, FindAndModify
+This operation works like updateMulti, but it returns the object before it was modified.
+
