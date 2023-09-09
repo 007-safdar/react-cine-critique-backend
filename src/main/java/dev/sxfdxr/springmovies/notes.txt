@@ -76,7 +76,7 @@ First login to Git on terminal
 git --global user.email =""
 git --global user.name = ""
 To check the creds
-git --global --list
+
 
 git init
 git add -A
