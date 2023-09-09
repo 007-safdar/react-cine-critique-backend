@@ -86,4 +86,5 @@ To check if there's a remote repo
 git remote
 git push origin master to push to github
 
-Whenever changes are made
+Whenever changes are need to made verify using 
+git status
