@@ -70,3 +70,20 @@ Save-insert --> checks if id is there, if present it updates else it inserts
 update , UpdateFirst ,UpdateMulti, FindAndModify
 This operation works like updateMulti, but it returns the object before it was modified.
 
+Git notes
+
+First login to Git on terminal
+git --global user.email =""
+git --global user.name = ""
+To check the creds
+git --global --list
+
+git init
+git add -A
+git commit -m "initial commit"
+git remote add origin https://github.com/007-safdar/Repo.git
+To check if there's a remote repo 
+git remote
+git push origin master to push to github
+
+Whenever changes are made
