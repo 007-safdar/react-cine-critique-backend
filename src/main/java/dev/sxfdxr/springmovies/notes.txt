@@ -88,3 +88,277 @@ git push origin master to push to github
 
 Whenever changes are need to made verify using 
 git status
+
+
+///// React notes
+
+Async Javascript
+
+promise
+A Promise is an object representing the eventual completion or failure of an asynchronous operation.
+
+Async 
+Async simply allows us to write promises-based code as if it was synchronous and it
+ checks that we are not breaking the execution thread. 
+  This is supposed to be the better way to write promises and it helps us keep our code simple and clean.
+All you have to do is write the word async before any regular function and it becomes a promise.
+
+Await
+Await function is used to wait for the promise. It could be used within the async block only.
+ It makes the code wait until the promise returns a result. It only makes the async block wait.
+
+ // Callbacks hell
+
+Callback Hell is essentially nested callbacks stacked below one another forming a pyramid structure. Every callback depends/waits for the previous callback,
+ thereby making a pyramid structure that affects the readability and maintainability of the code
+ Ex: Read a js file and hit an api endpoint then store the output in another js file
+
+ Event loop is how js manages events It Takes stuff from the event queue and places in the function stack when its empty.
+
+//Destructuring array/ object
+Ex:
+const userData=["name","age"];
+const userName=userData[0];
+const userAge=userData[1];
+const [name,age]=["name","age"];
+let mainObj={
+    "name":"xyz",
+    "age":"12"
+}
+mainObj.name 
+mainObj.age
+const {name,age}={
+    "name":"xyz",
+    "age":"12"
+}
+
+//Spread operator used to merge to arrays or obj into one 
+...
+const arr1 =["1","2"];
+const arr2=["3","4"];
+const arr3=[arr1,arr2];// nested arrays but say i wanna remove these array's standalone values and make it another array 
+const arr4=[...arr1,...arr2]; // ["1","2","3","4"]
+//JSX is html code inside js
+
+useState is to render ui or react to user input
+useEffect is outside of normal component evalaution like send https requests to server
+useEffect(()=>{},[]) it takes a function and a dependency
+useReducer is for poweerful state management over useState
+Contexxt api used to forward props in  nested componenets, 
+
+Redux is for state management b/w componenets
+Context API potential cons
+lots of providers / deeply nested JSX lots of code can cause performance issues when there's freq state changes
+
+Core redux concepts
+Central store
+Subscriber
+Reducer
+Action/Trigger
+
+useState: update current state using previous state, we can use function.
+ex:
+
+const [counter,setCounter]= useState(0);
+const CounterHandler=(event)=>{
+   // event.preventDefault();
+setCounter((prevCounter) =>prevCounter + 1);
+}
+
+const [count,setCount]=useState(0);
+
+    const countHandler = ()=>{
+        setCount((prevCount)=>{return prevCount+1});
+    }
+
+useEffect has clean up function which it returns, this function runs once when there's dependency change
+useEffect(<Fn>,[dependency]);
+
+useRef 
+syntax const count = useRef(0);
+ here count is an object and current returns the current value of ref 
+Why do we need this ?
+
+ const count=useRef(0);
+    const [review,setReview]=useState('');
+
+    useEffect(()=>{
+       count.current=count.current+1;
+    });
+    // const countHandler = ()=>{
+    //     setCount(prevCount=>prevCount+1);
+    // }
+    const reviewChangeHandler=(e)=>{
+        setReview(e.target.value);
+    }
+    return(
+        <Form>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" onChange={reviewChangeHandler}/>
+        <Form.Text className="text-muted">
+          {review}
+          </Form.Text>
+        <h1>{count.current}</h1>
+        </Form.Group>
+
+      <Button variant="dark">Submit</Button>
+</Form>
+
+Say we want to print the no of renders and we'ce used useEffect as it executes only when there's dependency or once on every render
+Inside this if we use state to keep track of count, useState always causes re-render which in turn scheudles the useEffect and this causes infinite loop
+so we cna useref as it does not cause any rerender
+
+ref is also used to get the dom element. usually we use it to get inputs mostly in forms.
+we can use state as well but it'll cause re-renders
+
+Basically:
+Refs" provide a way to access the current value of DOM elements. You can create a "ref" using the useRef hook, then attach it to the form element you want to access. This allows you to retrieve the current value of an element at any time, without needing to manage its state in your React component.
+Basically instead of us having to update the state browser can be used to do so.
+Say We have a form that contains a text input field, a select box, and a checkbox. Instead of creating state for each form element and writing event handlers to update the state, we're using uncontrolled components. This means that the browser is responsible for managing the state of the form elements.
+https://www.freecodecamp.org/news/how-to-build-forms-in-react/#:~:text=%22Refs%22%20provide%20a%20way%20to,state%20in%20your%20React%20component.
+
+
+
+useReducer: Say we have a usecase to change current state based on changes done in other states, this cant 
+be done using useState because of the way states are scheduled in react
+
+useReducer syntax:
+
+const [state,dispatchFn]=useReducer(reducerFn,initial state, initFn)
+dispatchFn is used to trigger a state update
+reducerFn is triggered when there's a state update.
+(prevState,action)=> newState
+initFn used when we have http requests
+
+https://codesandbox.io/s/useeffect-hook-jyjvm1?file=/src/components/Login/Login.js Has the useReducer built
+
+So here we updated the state for user onchange event or onblur event by passing an identifier as type in the dispatchfn.
+in our reducerfn we check for the type recieved in action (from dispatch)
+and return the value of state and validity accordingly.
+For input dispatch we passed value as we needed to validate and for blur we used previous state as that contains the past changed password/email 
+ie the one on screen and re-validated.
+
+
+Context API is used when we have props that are app wide scoped components.
+Say we have used a prop which i've defined in my app.js and inside that i have component a and nested in this theres component b
+and the prop i passed is only required in B, thus its redundant in A.
+
+
+We create a store file and in this file we use createContext function
+To provide the scope of this context we use <contextname>.provider
+The code which requires this can be scoped within this jsx.
+
+We can consume this ctx in 2 ways.
+one is to use <contextName>.consumer andf this jsx has a child {} whcih has an arrow func, the param there is the context
+
+We can pass func as well as context
+We can use context if we're managing an app wide state
+
+Disadvantages of react context - Deeply nested jsx codes in enterprise level app
+Not good for high frequency changes mostly suited for themes / authentication
+
+
+React Redux has a central Store for saving states.
+We then have a reducer function which makes changes to the state
+A dispatch function to create the trigger for state changes
+subscriber is like an event listener for changes
+provider to cover the scope of where we would be using the states stored in redux store
+
+useSelector is used to get data out of the store. 
+useSelector(state=>{state.counter}) takes a function as an arguement and returns the state / state slice
+it automatically creates a subscriber with the component
+When component is removed from dom react redux clears the state automatically as well.
+
+Subscriber: Components subscribes to the store and whenever there are changes the store notifies the components and they get the latest changes: Ex getState()
+
+In redux we have a seperate store file where in we have the reducer fn and the states
+
+React router dom
+Link is used instead of a tag to avoid sending http request for page navigation, instead link looks into
+whats defined in react router and without page refresh we can navigate to other urls.
+
+Outlet is used in places where we have navigation bars which are used across all pages.
+It marks the place where the child jsx needs to be rendered
+We can either define routes via an object or jsx with the paths
+
+We can create paths using createBrowserRouter or using routes and route 
+
+Flexbox
+We basically have flex container and child flex items here.
+We can use justify-content to horizontally align items
+allign items for vertical aligning
+
+
+Notes on connecting UI with API
+
+Routing: defined the path check if any param needs to be passed can useParam in react router
+Passing props login from where we need to initiate the use of this route, like click on play button
+
+Mongo default port is 27017
+Docker commands
+
+docker pull mongo:latest
+To see all images docker images ls
+build image docker build -t react-container
+create container from image docker run -d -p 27017:27017 --name springmongodb mongo:latest
+ to see docker containers docker ps
+
+To check the os and architecture of machine docker image inspect springreactmovies.azurecr.io/sprintboot-backend:1.0
+
+While pushing to azure we need to add azure servername/image
+
+Build and push into arm64 env 
+docker buildx build --push --platform linux/arm64 -t springreactmovies.azurecr.io/sprintboot-backend:1.0 -f Dockerfile .
+For post deployment debugging go to diagnose and solve problems--> aaplications logs/container crashes
+
+Process to login and deploy on azure
+
+
+Transpiling is process of converting ts to browser understood js 
+tsc filename.ts
+--noEmitOnError filename.ts does not create js file when theres error
+
+if we use get , set we need to provide compiler flag during transpiling 
+--target ES5
+
+we can have a config file AS well 
+tsconfig.json 
+we can create this using --init 
+
+For loops in ts 
+let sport = [a,b,c,d];
+for(let elem of sport)
+console.log(elem) --> gives current array elem
+
+Traditionally when we define constructors we do it like this. 
+
+class Components{
+
+  private firstname:string;
+  private lastname:string;
+
+  constructor(firstname:string , lastname:string){
+    this.firstname=firstname;
+    this.lastname=lastname;
+  }
+  //getters / setters
+}
+But with Parameter properties we can reduce boiler plate code 
+
+class Components{
+
+  constructor(private _firstname:string, private _lastname:string){
+
+  }
+}
+
+While importing class fiels give './customer' no .ts 
+npx tsc --init 
+
+How to execute TS Code
+npx tsc
+Node driver.js
+
+About abstract classes 
+We cannot create instances of it directly only sub classes 

@@ -1,0 +1,13 @@
+version: "3"
+services:
+  spring-boot-java:
+    image: springreactmovies.azurecr.io/sprintboot-backend:1.1
+    container_name: "spring-remote-container"
+    ports:
+      - 8080:8080
+  springboot-react:
+    image: springreactmovies.azurecr.io/frontend-react-image:1.0
+    container_name: react-frontend
+    ports:
+      - 3000:3000
+   
